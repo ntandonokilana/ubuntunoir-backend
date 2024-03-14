@@ -4,41 +4,76 @@ import {
     addProduct,
     deleteProduct,
     updateProduct,
-  } from '../models/database.js';
-  
-  // Get all products
-   const getAllProducts = async (req, res) => {
-    res.send(await getProducts());
-  };
-  
-  // Getting product by ID
-  const getSingleProduct = async (req, res) => {
-    res.send(await getProduct(+req.params.productID));
-  };
-  
-  // Adding a product
-  const addAProduct = async (req, res) => {
-    const {productID, prodname,category,amount,produrl} = req.body;
-    res.send(await addProduct(productID, prodname,category,amount,produrl));
-  };
-  
-  // Deleting a product
-   const deleteAProduct = async(req, res) =>{
-    res.send(await deleteProduct(req.params.productID));
-  };
-  
-  // Updating a product
-  let updateAProduct = async (req, res)=>{
+} from '../models/database.js';
+
+// Get all products
+const getAllProducts = async (req, res) => {
     try {
-      const {prodname,category,amount,produrl} = req.body;
-      await updateProduct(prodname,category,amount,produrl, +req.params.productID);
-      res.json(await getProducts());
+        const products = await getProducts();
+        res.json(products);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ msg: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ msg: 'Internal Server Error' });
     }
-  };
-  
-  
-  
-  export{getAllProducts,getSingleProduct,addAProduct,deleteAProduct,updateAProduct}
+};
+
+// Getting product by ID
+// Getting product by ID
+// Getting product by ID
+// Getting product by ID
+const getSingleProduct = async (req, res) => {
+  try {
+      console.log('Product ID:', req.params.productID); // Log the value of productID
+      const productID = parseInt(req.params.productID);
+      console.log('Parsed Product ID:', productID); // Log the parsed productID
+      if (isNaN(productID)) {
+          return res.status(400).json({ error: 'Invalid product ID' });
+      }
+      const product = await getProduct(productID);
+      if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+      }
+      res.json(product);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// Adding a product
+const addAProduct = async (req, res) => {
+    try {
+        const { productID, prodname, category, amount, produrl } = req.body;
+        const newProduct = await addProduct(productID, prodname, category, amount, produrl);
+        res.json(newProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Internal Server Error' });
+    }
+};
+
+// Deleting a product
+const deleteAProduct = async (req, res) => {
+    try {
+        const deletedProduct = await deleteProduct(req.params.productID);
+        res.json(deletedProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Internal Server Error' });
+    }
+};
+
+// Updating a product
+const updateAProduct = async (req, res) => {
+    try {
+        const { prodname, category, amount, produrl } = req.body;
+        await updateProduct(prodname, category, amount, produrl, +req.params.productID);
+        const updatedProducts = await getProducts();
+        res.json(updatedProducts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Internal Server Error' });
+    }
+};
+
+export { getAllProducts, getSingleProduct, addAProduct, deleteAProduct, updateAProduct };
