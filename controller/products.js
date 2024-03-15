@@ -18,16 +18,13 @@ const getAllProducts = async (req, res) => {
 };
 
 // Getting product by ID
-// Getting product by ID
-// Getting product by ID
-// Getting product by ID
 const getSingleProduct = async (req, res) => {
   try {
-      console.log('Product ID:', req.params.productID); // Log the value of productID
+      console.log('productID:', req.params.productID); 
       const productID = parseInt(req.params.productID);
-      console.log('Parsed Product ID:', productID); // Log the parsed productID
+      console.log('Parsed productID:', productID); 
       if (isNaN(productID)) {
-          return res.status(400).json({ error: 'Invalid product ID' });
+          return res.status(400).json({ error: 'Invalid productID' });
       }
       const product = await getProduct(productID);
       if (!product) {

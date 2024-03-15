@@ -32,24 +32,24 @@ app.use('/products', productsRouter);
 //     res.send(await getProducts())
 // })
 
-// app.get('/products/:productID', async(req,res)=>{
-//     // res.send(await getProduct(+req.params.productID))
-// })
+app.get('/products/:productID', async(req,res)=>{
+    res.send(await getProduct(+req.params.productID))
+})
 
-// app.post('/products', async(req,res)=>{
+app.post('/products', async(req,res)=>{
     
-// })
+})
 
-// app.delete('/product/:productID', async(req,res)=>{
-//     // res.send(await deleteProduct(req.params.productID))
-//     // prodname ? prodname=prodname : {prodname}=product
-//     // category ? category=category : {category}=product
-//     // amount ? amount=amount : {amount}=product
-//     // produrl ? produrl=produrl : {produrl}=product
-//     // console.log(product);
-//     // await updateProduct(prodname,category,amount,produrl, +req.params.productID)
-//     // res.json(await getProduct())
-// })
+app.delete('/product/:productID', async(req,res)=>{
+    // res.send(await deleteProduct(req.params.productID))
+    // prodname ? prodname=prodname : {prodname}=product
+    // category ? category=category : {category}=product
+    // amount ? amount=amount : {amount}=product
+    // produrl ? produrl=produrl : {produrl}=product
+    // console.log(product);
+    // await updateProduct(prodname,category,amount,produrl, +req.params.productID)
+    // res.json(await getProduct())
+})
 
 app.listen(process.env.PORT, ()=>{
     console.log('http://localhost:'+ PORT);
